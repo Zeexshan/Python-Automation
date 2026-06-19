@@ -736,6 +736,11 @@ async def create_curriculum_tab(page):
     if not renamed:
         print("    ⚠️  Tab created but could not rename — leaving as-is.")
 
+    # After a tab rename, keyboard focus is on the tab bar, NOT the cell grid.
+    # focus_sheet() clicks the grid container so that Ctrl+Home (inside
+    # navigate_to_cell) is intercepted by Google Sheets, not by Chrome.
+    await focus_sheet(page)
+
     # Add header row: Short Course Name | Chapter | Lesson | Concepts to be Covered
     await navigate_to_cell(page, "A1")
     header_tsv = "Short Course Name\tChapter\tLesson\tConcepts to be Covered"
@@ -747,44 +752,77 @@ async def create_curriculum_tab(page):
     return True
 
 
+# ---------------------------------------------------------------------------
+# Row counter for the Curriculum tab.
+# We track the next empty row explicitly rather than using Ctrl+End, because
+# Ctrl+End on a newly-created Google Sheet (which pre-allocates 1000 rows)
+# jumps to row 1000 even when the sheet is mostly empty.
+# ---------------------------------------------------------------------------
+_curriculum_next_row: int | None = None
+
+
+async def _read_curriculum_row_count(page) -> int:
+    """
+    Count how many DATA rows the Curriculum tab already has (header excluded).
+    Used on script restart when the tab already exists from a previous run.
+    Returns 0 if the tab is empty or has only a header.
+    """
+    await focus_sheet(page)
+    await page.keyboard.press("Escape")
+    await asyncio.sleep(0.3)
+    await page.keyboard.press("Control+Home")
+    await asyncio.sleep(1)
+    await page.keyboard.press("Control+a")
+    await asyncio.sleep(1)
+    await page.keyboard.press("Control+c")
+    await asyncio.sleep(2)
+
+    tsv = pyperclip.paste()
+    if not tsv.strip():
+        return 0
+
+    lines = [ln for ln in tsv.split("\n") if ln.strip()]
+    return max(0, len(lines) - 1)   # subtract 1 for the header row
+
+
 async def append_rows_to_curriculum_tab(page, rows):
     """
     Paste new curriculum rows at the bottom of the Curriculum tab.
     Creates the tab (with headers) automatically if it does not exist.
     Rows format: [skill_name, chapter, lesson, concepts]
+
+    Uses a module-level counter (_curriculum_next_row) to track the exact
+    target row so we never rely on Ctrl+End (which overshoots on empty sheets).
+    On the first call of a fresh session the counter is initialised to 2
+    (row after the header). On a restart the counter is initialised by
+    reading the tab to count its existing rows.
     """
+    global _curriculum_next_row
+
     found = await click_sheet_tab(page, "Curriculum")
     if not found:
         created = await create_curriculum_tab(page)
         if not created:
             print("    ❌ Could not create 'Curriculum' tab — skipping write.")
             return
-        # After creation we are already on the Curriculum tab at A1 (past header)
+        _curriculum_next_row = 2   # header is row 1, first data row is row 2
 
-    # Navigate to A1 then jump to the first truly empty row in column A
-    await navigate_to_cell(page, "A1")
-    await asyncio.sleep(0.5)
+    elif _curriculum_next_row is None:
+        # Tab already exists (script was restarted) — figure out where data ends.
+        existing = await _read_curriculum_row_count(page)
+        # existing=0 → header only → next row is 2
+        # existing=22 → rows 1-23 used → next row is 24
+        _curriculum_next_row = existing + 2
 
-    # Ctrl+Down moves to the last non-empty cell in column A.
-    # If A1 is empty (brand-new tab) Ctrl+Down jumps to the sheet bottom, so
-    # we detect that by checking if we're now on a very large row number — but
-    # it's simpler to just use Ctrl+End (goes to last used cell) then come back
-    # to column A, one row below.
-    await page.keyboard.press("Control+End")
-    await asyncio.sleep(0.5)
-    await page.keyboard.press("Home")          # move to col A of that row
-    await asyncio.sleep(0.3)
+    # Navigate directly to the known next empty row and paste the TSV block.
+    await navigate_to_cell(page, f"A{_curriculum_next_row}")
 
-    # Check if this cell is empty; if not, go one row down
-    # We can't read cell value easily here, so always go one row down from last used.
-    await page.keyboard.press("ArrowDown")
-    await asyncio.sleep(0.3)
-
-    # Build TSV and paste all rows at once
     tsv = "\n".join("\t".join(str(c) for c in row) for row in rows)
     pyperclip.copy(tsv)
     await page.keyboard.press("Control+v")
     await asyncio.sleep(2)
+
+    _curriculum_next_row += len(rows)
 
     await save_sheet(page)
     print(f"    ✅ Wrote {len(rows)} rows to 'Curriculum' tab.")
