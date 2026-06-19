@@ -569,82 +569,88 @@ async def read_skills_from_sheet(page):
     return skills
 
 
+def _parse_cell_address(cell_address):
+    """
+    Parse 'D30' → (col_index=4, row_index=30).
+    col_index is 1-based (A=1, B=2, ..., Z=26, AA=27, ...).
+    """
+    m = re.match(r'^([A-Za-z]+)(\d+)$', cell_address.strip())
+    if not m:
+        raise ValueError(f"Invalid cell address: {cell_address!r}")
+    col_str, row_str = m.group(1).upper(), m.group(2)
+    col = 0
+    for ch in col_str:
+        col = col * 26 + (ord(ch) - ord('A') + 1)
+    return col, int(row_str)
+
+
 async def navigate_to_cell(page, cell_address):
     """
-    Navigate to a specific cell by clicking the Name Box (the cell-reference
-    input at the top-left of the spreadsheet) and typing the address.
+    Navigate to a cell using Ctrl+Home then arrow keys.
 
-    WHY NOT Ctrl+G:
-      Ctrl+G is Chrome's native "Find Next" shortcut.  Even when Google Sheets
-      has keyboard focus, Chrome can intercept it and open the browser find bar
-      instead of any Sheets dialog.  Anything typed afterward goes into the find
-      bar — which is exactly the bug: D30 was searched, not navigated to.
-
-    The Name Box approach is reliable because:
-      - It is a real DOM element we can click directly.
-      - Clicking it focuses the input immediately.
-      - Typing the address + Enter always lands on that cell.
+    WHY THIS APPROACH:
+      - Ctrl+G → Chrome intercepts it as "Find Next", types end up in the
+        browser find bar instead of a Sheets dialog.
+      - Name Box selectors (.cell-input, .docs-name-box, etc.) all map to
+        the FORMULA BAR, not the Name Box. Clicking the formula bar puts the
+        active cell into edit mode, so the address is typed as cell content
+        ("A1" literally appears in the cell) rather than used for navigation.
+      - Ctrl+Home is a Sheets shortcut (not intercepted by Chrome) that always
+        lands on A1. From there, plain arrow key presses are deterministic.
     """
-    # Dismiss any open menus, dialogs, or Chrome find bar first.
+    col, row = _parse_cell_address(cell_address)
+
+    # Exit any edit mode / close any open dialog or Chrome find bar.
     await page.keyboard.press("Escape")
-    await asyncio.sleep(0.3)
-    await page.keyboard.press("Escape")   # second press closes Chrome find bar
+    await asyncio.sleep(0.2)
+    await page.keyboard.press("Escape")
     await asyncio.sleep(0.2)
 
-    # Selectors for the Google Sheets Name Box, ordered most-to-least specific.
-    name_box_selectors = [
-        "input[aria-label='Cell reference']",   # Sheets sometimes uses this label
-        "input[aria-label='Name Box']",
-        ".docs-name-box input",
-        ".docs-name-box",
-        ".cell-input",                           # formula-bar input
-    ]
+    # Always start from A1 — gives us a known, repeatable origin.
+    await page.keyboard.press("Control+Home")
+    await asyncio.sleep(0.4)
 
-    focused = False
-    for sel in name_box_selectors:
-        loc = page.locator(sel).first
-        try:
-            if await loc.count() > 0 and await loc.is_visible():
-                await loc.click()
-                await asyncio.sleep(0.5)
-                focused = True
-                break
-        except Exception:
-            continue
+    # Move right to the target column (A is already col 1, so we need col-1 presses).
+    for _ in range(col - 1):
+        await page.keyboard.press("ArrowRight")
+        await asyncio.sleep(0.02)
 
-    if not focused:
-        print(f"    ⚠️  Name Box not found; falling back to Ctrl+Home for {cell_address}")
-        await page.keyboard.press("Control+Home")
-        await asyncio.sleep(0.5)
-        return
+    # Move down to the target row (row 1 is already active, so row-1 presses).
+    for _ in range(row - 1):
+        await page.keyboard.press("ArrowDown")
+        await asyncio.sleep(0.02)
 
-    # Select whatever is in the Name Box, then type the destination address.
-    await page.keyboard.press("Control+a")
-    await asyncio.sleep(0.1)
-    await page.keyboard.type(cell_address)
-    await page.keyboard.press("Enter")
-    await asyncio.sleep(0.8)
+    await asyncio.sleep(0.3)
 
 
 async def write_cell(page, cell_address, value):
     """
     Navigate to a cell and write a value.
 
-    Uses clipboard paste instead of keyboard.type() so that:
-      - Multiline values (e.g. "1. {url1}\\n2. {url2}") are pasted as a
-        single cell value.  keyboard.type("\\n") would confirm the cell and
-        jump to the next row instead of inserting a line break.
-      - Special characters in URLs (=, +, ?) are not misinterpreted by
-        Google Sheets as formula starters when pasted via clipboard.
+    Uses keyboard.type() with F2 to enter edit mode explicitly.
+    For multiline values (e.g. plan_url + newline + qa_url), each newline
+    is sent as Alt+Enter — the Google Sheets shortcut for an in-cell line
+    break. Plain Enter would confirm the cell and jump to the next row.
     """
     await navigate_to_cell(page, cell_address)
 
-    value_str = str(value)
-    pyperclip.copy(value_str)
-    await page.keyboard.press("Control+v")
-    await asyncio.sleep(0.6)
+    # F2 enters edit mode without changing the cell's content.
+    await page.keyboard.press("F2")
+    await asyncio.sleep(0.2)
 
-    await page.keyboard.press("Tab")   # confirm without jumping rows
+    value_str = str(value)
+    if "\n" in value_str:
+        lines = value_str.split("\n")
+        for i, line in enumerate(lines):
+            await page.keyboard.type(line)
+            if i < len(lines) - 1:
+                await page.keyboard.press("Alt+Enter")  # in-cell line break
+                await asyncio.sleep(0.1)
+    else:
+        await page.keyboard.type(value_str)
+
+    # Tab confirms the cell and moves right — does NOT jump to the next row.
+    await page.keyboard.press("Tab")
     await asyncio.sleep(0.4)
 
 
