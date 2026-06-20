@@ -1,0 +1,205 @@
+
+C:\Users\acer\Downloads\Python-Automation-main\Python-Automation-main\attached_assets>python curriculum_automation_fixed.py
+==============================================================
+  CURRICULUM AUTOMATION  v2  (FIXED)
+==============================================================
+  → Press Enter to launch Chrome... 
+  Killing any existing Chrome processes...
+  taskkill stdout: 
+  taskkill stderr: ERROR: The process "chrome.exe" not found.
+  Waiting 4s for Chrome processes to fully terminate...
+  Using Chrome: C:\Program Files\Google\Chrome\Application\chrome.exe
+  Launch args: C:\Program Files\Google\Chrome\Application\chrome.exe --remote-debugging-port=9222 --remote-allow-origins=* --user-data-dir=C:\Users\acer\AppData\Local\Google\ChromeDebugSession --profile-directory=Default --no-first-run --no-default-browser-check --start-maximized
+  Chrome launched (pid 21996) on port 9222.
+  Waiting for Chrome debug port to open (up to 45s)...
+  ✅ Debug port 9222 open after 1s.
+
+  Chrome is open.
+  Complete any verification steps in Chrome (OTP, 'verify it's you', etc.)
+  Once Chrome looks normal and you're ready to go:
+
+  🍳  Should we start cooking? Press Enter to begin...  
+
+Connecting Playwright to Chrome...
+Reading skills from Google Sheet...
+Found 99 skills to process:
+  1. Google Analytics 4 for Product Analytics
+  2. Power BI for Advanced Dashboards
+  3. Tableau for Data Visualization
+  4. Metabase for Self-Service Analytics
+  5. Looker Studio for Reporting
+  6. Mixpanel for Product Analytics
+  7. Amplitude for User Behavior Analytics
+  8. Hotjar for Customer Experience Analytics
+  9. Apache Airflow for Data Orchestration
+  10. dbt Core for Data Transformation
+  11. Apache Kafka for Event Streaming
+  12. Databricks for Lakehouse Analytics
+  13. Snowflake for Cloud Data Warehousing
+  14. BigQuery for Large-Scale Analytics
+  15. Delta Lake for Modern Data Lakes
+  16. Apache Iceberg for Data Lake Management
+  17. Trino for Distributed Query Processing
+  18. DuckDB for Embedded Analytics
+  19. Feast for Machine Learning Feature Stores
+  20. Apache Spark for Distributed Data Processing
+  21. Apache Flink for Stream Processing
+  22. ClickHouse for Real-Time Analytics
+  23. Figma for Product Design
+  24. WordPress for Website Development
+  25. Shopify for E-Commerce Development
+  26. Vercel for Frontend Deployment
+  27. Framer for Landing Page Development
+  28. Webflow for No-Code Website Development
+  29. Contentful for Headless CMS
+  30. Sanity for Content Platforms
+  31. Storybook for Design Systems
+  32. React Native for Mobile Application Development
+  33. PostgreSQL for Production Databases
+  34. MongoDB for NoSQL Applications
+  35. Redis for Application Caching
+  36. RabbitMQ for Messaging Systems
+  37. Elasticsearch for Search Applications
+  38. Kong Gateway for API Management
+  39. Supabase for Backend Development
+  40. MinIO for Object Storage
+  41. Apache Cassandra for Distributed Databases
+  42. Neo4j for Graph Databases
+  43. WebSockets for Real-Time Applications
+  44. WebRTC for Real-Time Communication
+  45. NATS for Event-Driven Systems
+  46. Docker for Containerized Applications
+  47. Kubernetes for Container Orchestration
+  48. Terraform for Infrastructure as Code
+  49. GitHub Actions for CI/CD Pipelines
+  50. ArgoCD for GitOps Deployments
+  51. Helm for Kubernetes Package Management
+  52. Grafana for Monitoring Dashboards
+  53. Prometheus for Metrics Collection
+  54. Datadog for Observability
+  55. OpenTelemetry for Distributed Tracing
+  56. Sentry for Error Monitoring
+  57. Vault for Secrets Management
+  58. Istio for Service Mesh
+  59. NGINX for Reverse Proxy & Load Balancing
+  60. Loki for Log Aggregation
+  61. Jaeger for Distributed Tracing
+  62. AWS for Cloud Infrastructure
+  63. Microsoft Azure for Cloud Solutions
+  64. Google Cloud for Cloud Applications
+  65. AWS EC2 for Compute Services
+  66. AWS Lambda for Serverless Applications
+  67. Amazon EKS for Managed Kubernetes
+  68. Google GKE for Managed Kubernetes
+  69. Azure Functions for Serverless Computing
+  70. Amazon S3 for Cloud Storage
+  71. Amazon RDS for Managed Databases
+  72. Amazon DynamoDB for Serverless Databases
+  73. Amazon SQS for Messaging Services
+  74. Amazon SNS for Event Notifications
+  75. AWS IAM for Identity & Access Management
+  76. AWS VPC for Cloud Networking
+  77. Amazon CloudWatch for Monitoring
+  78. Cloudflare for CDN & Edge Services
+  79. Fastly for Edge Computing
+  80. Akamai for Global Content Delivery
+  81. Pulumi for Cloud Infrastructure Automation
+  82. Hugging Face for Open-Source AI
+  83. PyTorch for Deep Learning
+  84. TensorFlow for Machine Learning
+  85. MLflow for MLOps
+  86. Weights & Biases for Experiment Tracking
+  87. Ollama for Local LLM Deployment
+  88. vLLM for High-Performance Inference
+  89. LlamaIndex for RAG Applications
+  90. LangSmith for AI Evaluation & Observability
+  91. Qdrant for Vector Search
+  92. Pinecone for Vector Databases
+  93. YOLO for Computer Vision
+  94. ElevenLabs for Voice AI
+  95. ComfyUI for AI Image Generation
+  96. Runway for AI Video Generation
+  97. Blockchain
+  98. Solidity
+  99. Hyperledger
+
+
+==============================================================
+  [1/99] Google Analytics 4 for Product Analytics  (sheet row 31)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/c/6a36513b-2dec-83e8-8757-dbc364532f95
+          Curriculum length: 11450 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a365169-b764-83ee-9212-bedb4f6dcbd7
+          QA Score: 100/100
+    📋 'Curriculum' tab not found — creating it...
+    ✅ 'Curriculum' tab created with header row.
+    ✅ Wrote 26 rows to 'Curriculum' tab.
+  Result │ ✅ Passed (100/100, 26 rows written)
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [2/99] Power BI for Advanced Dashboards  (sheet row 32)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/c/6a3651ed-43c8-83e9-8ed2-6faba85ffdfe
+          Curriculum length: 10177 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a365254-9828-83ee-93ca-534e2492a1f8
+          QA Score: 100/100
+    ✅ Wrote 25 rows to 'Curriculum' tab.
+  Result │ ✅ Passed (100/100, 25 rows written)
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [3/99] Tableau for Data Visualization  (sheet row 33)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/c/6a3652c3-80f4-83ee-87da-5b8d220a5650
+          Curriculum length: 9826 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a3652e8-5d3c-83e8-887c-1bdb91ff29f7
+          QA Score: 100/100
+    ✅ Wrote 26 rows to 'Curriculum' tab.
+  Result │ ✅ Passed (100/100, 26 rows written)
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [4/99] Metabase for Self-Service Analytics  (sheet row 34)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e/c/6a3652c3-80f4-83ee-87da-5b8d220a5650
+          Curriculum length: 4926 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a3653ac-38d4-83e8-bbb3-31ebb8044c57
+          QA Score: 34/100
+  Step 3 │ Re-QA attempt 1/2...
+          Fixed curriculum: 5151 chars
+          Re-QA Score: 34/100
+  Step 3 │ Re-QA attempt 2/2...
+          Fixed curriculum: 5148 chars
+          Re-QA Score: 98/100
+    ✅ Wrote 0 rows to 'Curriculum' tab.
+  Result │ ✅ Passed (98/100, 0 rows written)
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [5/99] Looker Studio for Reporting  (sheet row 35)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/c/6a3655dd-2d60-83e8-ac36-be2eb19c171b
+          Curriculum length: 9190 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a3655fa-fb90-83e8-9cff-3546131cd554
+          QA Score: 100/100
+    ✅ Wrote 22 rows to 'Curriculum' tab.

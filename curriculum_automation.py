@@ -936,7 +936,24 @@ async def process_skill(page, row_number, skill_name, idx, total):
         status = "Score Parse Error"
         result_label = "⚠️  Score Parse Error"
     elif score >= QA_PASS_THRESHOLD:
+        # After re-QA retries the page may have navigated away from plan_url,
+        # and the fallback inner_text() path strips markdown table pipes so
+        # parse_table returns 0 rows.  Navigate back to plan_url and pull the
+        # final approved curriculum fresh so the copy-button path gets a clean
+        # attempt at the raw markdown.
+        if retry > 0:
+            print("          Fetching final curriculum from Plan project...")
+            await page.goto(plan_url, wait_until="domcontentloaded")
+            await asyncio.sleep(2)
+            curriculum = await get_last_response(page)
+            print(f"          Final curriculum: {len(curriculum)} chars")
+
         rows = parse_table(curriculum, skill_name)
+        if len(rows) == 0:
+            # Diagnostic: show a snippet so we know what parse_table received
+            print(f"  ⚠️  parse_table returned 0 rows — first 300 chars received:")
+            print(f"      {repr(curriculum[:300])}")
+
         await page.goto(SHEET_URL, wait_until="domcontentloaded")
         await focus_sheet(page)
         await append_rows_to_curriculum_tab(page, rows)
