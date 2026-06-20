@@ -1,0 +1,41 @@
+=== Chrome launch log — 2026-06-20 13:31:22 ===
+[13:31:22]   Killing any existing Chrome processes...
+[13:31:22]   taskkill stdout: SUCCESS: The process "chrome.exe" with PID 15532 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 24772 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 19692 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 4384 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 22296 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 12680 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 25712 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 14624 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 3800 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 20868 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 15088 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 21704 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 26500 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 4604 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 8436 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 25412 has been terminated.
+[13:31:22]   taskkill stderr: 
+[13:31:22]   Waiting 4s for Chrome processes to fully terminate...
+[13:31:26]   Using Chrome: C:\Program Files\Google\Chrome\Application\chrome.exe
+[13:31:26]   Launch args: C:\Program Files\Google\Chrome\Application\chrome.exe --remote-debugging-port=9222 --remote-allow-origins=* --user-data-dir=C:\Users\acer\AppData\Local\Google\Chrome\User Data --profile-directory=Profile 5 --no-first-run --no-default-browser-check --start-maximized
+
+DevTools remote debugging requires a non-default data directory. Specify this using --user-data-dir.
+Created TensorFlow Lite XNNPACK delegate for CPU.
+[13296:11652:0620/133130.984:ERROR:google_apis\gcm\engine\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[13296:3488:0620/133137.018:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[13296:3488:0620/133140.857:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[13296:3488:0620/133154.072:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[13296:3488:0620/133155.662:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[13296:11652:0620/133159.527:ERROR:google_apis\gcm\engine\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[13296:3488:0620/133200.751:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[13296:3488:0620/133202.545:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[13296:3488:0620/133202.558:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[13296:3488:0620/133203.675:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[13296:3488:0620/133219.894:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[13296:3488:0620/133221.656:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[13296:11652:0620/133248.091:ERROR:google_apis\gcm\engine\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+...
+[13:32:56]   ... still waiting (45s elapsed) ...
+[13:32:56] ❌ Chrome debug port never opened after 45s. Check chrome_launch.log for Chrome error output.

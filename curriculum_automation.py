@@ -23,6 +23,7 @@ import socket
 import subprocess
 import sys
 import os
+import shutil
 import pyperclip
 import pandas as pd
 from playwright.async_api import async_playwright
@@ -42,15 +43,16 @@ QA_PROJECT_URL = (
     "https://chatgpt.com/g/g-p-6a3521435c74819184a0fdd3ee12a134/project"
 )
 
-# Chrome user data directory — the folder that CONTAINS your profiles.
-# Do NOT point this at the profile folder itself; point it one level up.
-# Example: if your profile is at
-#   C:\Users\acer\AppData\Local\Google\Chrome\User Data\Profile 5
-# then set:
-#   CHROME_USER_DATA_DIR = r"C:\Users\acer\AppData\Local\Google\Chrome\User Data"
-#   CHROME_PROFILE_DIR   = "Profile 5"
+# Your real Chrome profile (the one with your company email already logged in).
+# Point CHROME_USER_DATA_DIR one level above the profile folder, and set
+# CHROME_PROFILE_DIR to the profile folder name.
 CHROME_USER_DATA_DIR = r"C:\Users\acer\AppData\Local\Google\Chrome\User Data"
 CHROME_PROFILE_DIR   = "Profile 5"
+
+# Chrome 120+ refuses to open a remote debug port on the real User Data directory.
+# The script copies your profile here before launching Chrome so it sees a
+# "non-default" directory — all cookies and logins are preserved in the copy.
+CHROME_DEBUG_DATA_DIR = r"C:\Users\acer\AppData\Local\Google\ChromeDebugSession"
 
 # Path to chrome.exe — this is the standard location
 CHROME_EXE = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
@@ -964,15 +966,53 @@ def log(msg):
         f.write(f"[{time.strftime('%H:%M:%S')}] {msg}\n")
 
 
+def prepare_debug_profile():
+    """
+    Copy CHROME_PROFILE_DIR from the real User Data directory into
+    CHROME_DEBUG_DATA_DIR as the 'Default' profile.
+
+    WHY: Chrome 120+ prints "DevTools remote debugging requires a non-default
+    data directory" and refuses to open the debug port when --user-data-dir
+    equals the real Chrome User Data folder. A separate directory bypasses
+    this restriction while keeping all cookies and logins from the original
+    profile — no re-login required.
+
+    The copy runs every launch (after Chrome is killed) so that any session
+    tokens refreshed since the last run are always picked up fresh.
+    """
+    src_profile = os.path.join(CHROME_USER_DATA_DIR, CHROME_PROFILE_DIR)
+    dst_profile = os.path.join(CHROME_DEBUG_DATA_DIR, "Default")
+    src_state   = os.path.join(CHROME_USER_DATA_DIR, "Local State")
+    dst_state   = os.path.join(CHROME_DEBUG_DATA_DIR, "Local State")
+
+    if not os.path.exists(src_profile):
+        log(f"❌ Source profile not found: {src_profile}")
+        log("   Check CHROME_USER_DATA_DIR and CHROME_PROFILE_DIR in the config.")
+        sys.exit(1)
+
+    log(f"  Copying profile '{CHROME_PROFILE_DIR}' → {dst_profile}")
+    log("  (This takes 15-60s depending on profile size — runs every launch)")
+
+    if os.path.exists(dst_profile):
+        shutil.rmtree(dst_profile, ignore_errors=True)
+
+    shutil.copytree(src_profile, dst_profile)
+
+    if os.path.exists(src_state):
+        shutil.copy2(src_state, dst_state)
+
+    log("  ✅ Profile copied successfully.")
+
+
 def delete_singleton_lock():
     """
-    Remove Chrome's SingletonLock file if it exists.
+    Remove Chrome's SingletonLock file from the debug data directory.
     If Chrome was killed hard, this file can linger and prevent the next
     Chrome launch from opening the profile — causing the debug port to
     silently never open.
     """
-    lock_path = os.path.join(CHROME_USER_DATA_DIR, CHROME_PROFILE_DIR, "SingletonLock")
-    lock_parent = os.path.join(CHROME_USER_DATA_DIR, "SingletonLock")
+    lock_path = os.path.join(CHROME_DEBUG_DATA_DIR, "Default", "SingletonLock")
+    lock_parent = os.path.join(CHROME_DEBUG_DATA_DIR, "SingletonLock")
     for p in (lock_path, lock_parent):
         if os.path.exists(p):
             try:
@@ -1007,6 +1047,10 @@ def launch_chrome_with_debug_port():
     log("  Waiting 4s for Chrome processes to fully terminate...")
     time.sleep(4)
 
+    # Copy the real profile to the debug data directory.
+    # Must happen AFTER Chrome is killed so no files are locked.
+    prepare_debug_profile()
+
     # Remove any stale SingletonLock left by the killed Chrome.
     # This file prevents a new Chrome from using the same profile.
     delete_singleton_lock()
@@ -1027,8 +1071,8 @@ def launch_chrome_with_debug_port():
         f"--remote-debugging-port={CHROME_DEBUG_PORT}",
         # Required on Chrome 120+ — without this the debug port accepts no connections
         "--remote-allow-origins=*",
-        f"--user-data-dir={CHROME_USER_DATA_DIR}",
-        f"--profile-directory={CHROME_PROFILE_DIR}",
+        f"--user-data-dir={CHROME_DEBUG_DATA_DIR}",
+        "--profile-directory=Default",
         "--no-first-run",
         "--no-default-browser-check",
         "--start-maximized",
