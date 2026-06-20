@@ -23,7 +23,6 @@ import socket
 import subprocess
 import sys
 import os
-import shutil
 import pyperclip
 import pandas as pd
 from playwright.async_api import async_playwright
@@ -43,15 +42,12 @@ QA_PROJECT_URL = (
     "https://chatgpt.com/g/g-p-6a3521435c74819184a0fdd3ee12a134/project"
 )
 
-# Your real Chrome profile (the one with your company email already logged in).
-# Point CHROME_USER_DATA_DIR one level above the profile folder, and set
-# CHROME_PROFILE_DIR to the profile folder name.
-CHROME_USER_DATA_DIR = r"C:\Users\acer\AppData\Local\Google\Chrome\User Data"
-CHROME_PROFILE_DIR   = "Profile 5"
-
-# Chrome 120+ refuses to open a remote debug port on the real User Data directory.
-# The script copies your profile here before launching Chrome so it sees a
-# "non-default" directory — all cookies and logins are preserved in the copy.
+# A dedicated folder for the script's Chrome profile.
+# MUST be different from your real Chrome User Data directory — Chrome 120+
+# blocks remote debugging on the default User Data path.
+# Chrome will create this folder automatically on first run.
+# You log in to Google Sheets and ChatGPT ONCE in this profile;
+# sessions are saved here and never need to be repeated.
 CHROME_DEBUG_DATA_DIR = r"C:\Users\acer\AppData\Local\Google\ChromeDebugSession"
 
 # Path to chrome.exe — this is the standard location
@@ -966,44 +962,6 @@ def log(msg):
         f.write(f"[{time.strftime('%H:%M:%S')}] {msg}\n")
 
 
-def prepare_debug_profile():
-    """
-    Copy CHROME_PROFILE_DIR from the real User Data directory into
-    CHROME_DEBUG_DATA_DIR as the 'Default' profile.
-
-    WHY: Chrome 120+ prints "DevTools remote debugging requires a non-default
-    data directory" and refuses to open the debug port when --user-data-dir
-    equals the real Chrome User Data folder. A separate directory bypasses
-    this restriction while keeping all cookies and logins from the original
-    profile — no re-login required.
-
-    The copy runs every launch (after Chrome is killed) so that any session
-    tokens refreshed since the last run are always picked up fresh.
-    """
-    src_profile = os.path.join(CHROME_USER_DATA_DIR, CHROME_PROFILE_DIR)
-    dst_profile = os.path.join(CHROME_DEBUG_DATA_DIR, "Default")
-    src_state   = os.path.join(CHROME_USER_DATA_DIR, "Local State")
-    dst_state   = os.path.join(CHROME_DEBUG_DATA_DIR, "Local State")
-
-    if not os.path.exists(src_profile):
-        log(f"❌ Source profile not found: {src_profile}")
-        log("   Check CHROME_USER_DATA_DIR and CHROME_PROFILE_DIR in the config.")
-        sys.exit(1)
-
-    log(f"  Copying profile '{CHROME_PROFILE_DIR}' → {dst_profile}")
-    log("  (This takes 15-60s depending on profile size — runs every launch)")
-
-    if os.path.exists(dst_profile):
-        shutil.rmtree(dst_profile, ignore_errors=True)
-
-    shutil.copytree(src_profile, dst_profile)
-
-    if os.path.exists(src_state):
-        shutil.copy2(src_state, dst_state)
-
-    log("  ✅ Profile copied successfully.")
-
-
 def delete_singleton_lock():
     """
     Remove Chrome's SingletonLock file from the debug data directory.
@@ -1046,10 +1004,6 @@ def launch_chrome_with_debug_port():
     # 1 second is often not enough — profile lock files can linger.
     log("  Waiting 4s for Chrome processes to fully terminate...")
     time.sleep(4)
-
-    # Copy the real profile to the debug data directory.
-    # Must happen AFTER Chrome is killed so no files are locked.
-    prepare_debug_profile()
 
     # Remove any stale SingletonLock left by the killed Chrome.
     # This file prevents a new Chrome from using the same profile.
@@ -1117,7 +1071,33 @@ async def main():
     print("  CURRICULUM AUTOMATION  v2  (FIXED)")
     print("=" * 62)
 
-    input("  → Press Enter to launch Chrome... ")
+    # ------------------------------------------------------------------ #
+    # First-time setup detection                                           #
+    # If the debug profile folder has never been used, the user must log  #
+    # in manually to Google Sheets and ChatGPT. After that first login    #
+    # the session is saved and this prompt never appears again.           #
+    # ------------------------------------------------------------------ #
+    first_time = not os.path.exists(
+        os.path.join(CHROME_DEBUG_DATA_DIR, "Default", "Cookies")
+    )
+
+    if first_time:
+        print()
+        print("  *** FIRST-TIME SETUP DETECTED ***")
+        print()
+        print("  Chrome will open with a brand-new profile.")
+        print("  You need to log in to TWO sites — just once:")
+        print()
+        print("  1) Google Sheets  →  sign in with your company email")
+        print("     (enter the OTP from your boss when Google asks)")
+        print("     Tip: tick 'Don't ask again on this device' to stay logged in.")
+        print()
+        print("  2) ChatGPT  →  sign in with your credentials")
+        print()
+        print("  After logging in to both sites, come back here and")
+        input("  press Enter to start the automation. ")
+    else:
+        input("  → Press Enter to launch Chrome and start... ")
 
     results = []
 
