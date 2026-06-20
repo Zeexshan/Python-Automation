@@ -1147,6 +1147,15 @@ async def main():
     # Launch Chrome with debug port so Playwright can attach
     chrome_proc = launch_chrome_with_debug_port()
 
+    # Give the boss time to verify / log in without the script zooming off.
+    print()
+    print("  Chrome is open.")
+    print("  Complete any verification steps in Chrome (OTP, 'verify it's you', etc.)")
+    print("  Once Chrome looks normal and you're ready to go:")
+    print()
+    input("  🍳  Should we start cooking? Press Enter to begin...  ")
+    print()
+
     async with async_playwright() as p:
         print("Connecting Playwright to Chrome...")
         browser = await p.chromium.connect_over_cdp(
