@@ -23,6 +23,7 @@ import socket
 import subprocess
 import sys
 import os
+import shutil
 import pyperclip
 import pandas as pd
 from playwright.async_api import async_playwright
@@ -42,12 +43,16 @@ QA_PROJECT_URL = (
     # "https://chatgpt.com/g/g-p-6a3521435c74819184a0fdd3ee12a134/project"
 )
 
-# A dedicated folder for the script's Chrome profile.
-# MUST be different from your real Chrome User Data directory — Chrome 120+
-# blocks remote debugging on the default User Data path.
-# Chrome will create this folder automatically on first run.
-# You log in to Google Sheets and ChatGPT ONCE in this profile;
-# sessions are saved here and never need to be repeated.
+# Your real Chrome profile (used as the SOURCE for the one-time copy below).
+CHROME_USER_DATA_DIR = r"C:\Users\acer\AppData\Local\Google\Chrome\User Data"
+CHROME_PROFILE_DIR   = "Profile 5"
+
+# The script's dedicated Chrome profile directory.
+# MUST differ from CHROME_USER_DATA_DIR — Chrome 120+ blocks remote debugging
+# on the default User Data path.
+# On first run: Profile 5 is COPIED here once, carrying all your logins.
+# On every subsequent run: this folder is reused as-is (no re-copy).
+# Result: Google's "verify it's you" check appears only on the very first run.
 CHROME_DEBUG_DATA_DIR = r"C:\Users\acer\AppData\Local\Google\ChromeDebugSession"
 
 # Path to chrome.exe — this is the standard location
@@ -962,6 +967,51 @@ def log(msg):
         f.write(f"[{time.strftime('%H:%M:%S')}] {msg}\n")
 
 
+def prepare_debug_profile():
+    """
+    Copy Profile 5 → ChromeDebugSession/Default on the very first run only.
+
+    WHY copy-once instead of copy-every-run:
+      - Copying every run overwrites the "verified device" token Google stores
+        in the profile after the "verify it's you" check, so Google would ask
+        for the OTP on every single run.
+      - Copying just once means the verification is saved permanently in
+        ChromeDebugSession and never asked again.
+
+    WHY copy at all (not use Profile 5 directly):
+      - Chrome 120+ rejects --remote-debugging-port when --user-data-dir points
+        to the real Chrome User Data directory (the default location).
+      - A separate directory bypasses this restriction.
+    """
+    dst_profile = os.path.join(CHROME_DEBUG_DATA_DIR, "Default")
+
+    # Already set up — skip copy entirely
+    if os.path.exists(dst_profile):
+        return
+
+    src_profile = os.path.join(CHROME_USER_DATA_DIR, CHROME_PROFILE_DIR)
+    src_state   = os.path.join(CHROME_USER_DATA_DIR, "Local State")
+    dst_state   = os.path.join(CHROME_DEBUG_DATA_DIR, "Local State")
+
+    if not os.path.exists(src_profile):
+        print(f"\n❌ Source profile not found: {src_profile}")
+        print("   Check CHROME_USER_DATA_DIR and CHROME_PROFILE_DIR in the config.")
+        sys.exit(1)
+
+    print(f"\n  Copying '{CHROME_PROFILE_DIR}' → {CHROME_DEBUG_DATA_DIR}")
+    print("  (This runs only once — takes 15–60 s depending on profile size...)")
+
+    os.makedirs(CHROME_DEBUG_DATA_DIR, exist_ok=True)
+    shutil.copytree(src_profile, dst_profile)
+
+    if os.path.exists(src_state):
+        shutil.copy2(src_state, dst_state)
+
+    print("  ✅ Profile copied. Chrome will ask 'verify it's you' this one time.")
+    print("     Tick 'Don't ask again on this device' before confirming.")
+    print()
+
+
 def delete_singleton_lock():
     """
     Remove Chrome's SingletonLock file from the debug data directory.
@@ -1071,33 +1121,26 @@ async def main():
     print("  CURRICULUM AUTOMATION  v2  (FIXED)")
     print("=" * 62)
 
-    # ------------------------------------------------------------------ #
-    # First-time setup detection                                           #
-    # If the debug profile folder has never been used, the user must log  #
-    # in manually to Google Sheets and ChatGPT. After that first login    #
-    # the session is saved and this prompt never appears again.           #
-    # ------------------------------------------------------------------ #
+    # Copy Profile 5 → ChromeDebugSession on first run only.
+    # On subsequent runs this is a no-op (folder already exists).
     first_time = not os.path.exists(
-        os.path.join(CHROME_DEBUG_DATA_DIR, "Default", "Cookies")
+        os.path.join(CHROME_DEBUG_DATA_DIR, "Default")
     )
+    prepare_debug_profile()
 
     if first_time:
         print()
-        print("  *** FIRST-TIME SETUP DETECTED ***")
+        print("  *** FIRST-TIME SETUP — read before pressing Enter ***")
         print()
-        print("  Chrome will open with a brand-new profile.")
-        print("  You need to log in to TWO sites — just once:")
+        print("  Your Profile 5 was just copied to the debug folder.")
+        print("  When Chrome opens, Google may show 'verify it's you'.")
         print()
-        print("  1) Google Sheets  →  sign in with your company email")
-        print("     (enter the OTP from your boss when Google asks)")
-        print("     Tip: tick 'Don't ask again on this device' to stay logged in.")
+        print("  → Enter the OTP from your boss to confirm.")
+        print("  → Tick 'Don't ask again on this device' before confirming.")
         print()
-        print("  2) ChatGPT  →  sign in with your credentials")
+        print("  That's it — you won't be asked again on future runs.")
         print()
-        print("  After logging in to both sites, come back here and")
-        input("  press Enter to start the automation. ")
-    else:
-        input("  → Press Enter to launch Chrome and start... ")
+    input("  → Press Enter to launch Chrome... ")
 
     results = []
 
