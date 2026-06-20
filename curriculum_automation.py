@@ -42,12 +42,15 @@ QA_PROJECT_URL = (
     "https://chatgpt.com/g/g-p-6a3521435c74819184a0fdd3ee12a134/project"
 )
 
-# IMPORTANT: This CANNOT be the real Chrome profile path.
-# Chrome 120+ blocks remote debugging when pointed at the default data directory.
-# Use a separate folder — Chrome will create it on first run.
-# You will need to log into ChatGPT and Google Sheets once in this profile.
-# After that, sessions are saved here and you never need to log in again.
-CHROME_PROFILE_PATH = r"C:\Users\Zeeshan\AppData\Local\Google\ChromeDebugSession"
+# Chrome user data directory — the folder that CONTAINS your profiles.
+# Do NOT point this at the profile folder itself; point it one level up.
+# Example: if your profile is at
+#   C:\Users\acer\AppData\Local\Google\Chrome\User Data\Profile 5
+# then set:
+#   CHROME_USER_DATA_DIR = r"C:\Users\acer\AppData\Local\Google\Chrome\User Data"
+#   CHROME_PROFILE_DIR   = "Profile 5"
+CHROME_USER_DATA_DIR = r"C:\Users\acer\AppData\Local\Google\Chrome\User Data"
+CHROME_PROFILE_DIR   = "Profile 5"
 
 # Path to chrome.exe — this is the standard location
 CHROME_EXE = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
@@ -968,8 +971,8 @@ def delete_singleton_lock():
     Chrome launch from opening the profile — causing the debug port to
     silently never open.
     """
-    lock_path = os.path.join(CHROME_PROFILE_PATH, "Default", "SingletonLock")
-    lock_parent = os.path.join(CHROME_PROFILE_PATH, "SingletonLock")
+    lock_path = os.path.join(CHROME_USER_DATA_DIR, CHROME_PROFILE_DIR, "SingletonLock")
+    lock_parent = os.path.join(CHROME_USER_DATA_DIR, "SingletonLock")
     for p in (lock_path, lock_parent):
         if os.path.exists(p):
             try:
@@ -1024,8 +1027,8 @@ def launch_chrome_with_debug_port():
         f"--remote-debugging-port={CHROME_DEBUG_PORT}",
         # Required on Chrome 120+ — without this the debug port accepts no connections
         "--remote-allow-origins=*",
-        f"--user-data-dir={CHROME_PROFILE_PATH}",
-        "--profile-directory=Default",
+        f"--user-data-dir={CHROME_USER_DATA_DIR}",
+        f"--profile-directory={CHROME_PROFILE_DIR}",
         "--no-first-run",
         "--no-default-browser-check",
         "--start-maximized",
@@ -1070,14 +1073,6 @@ async def main():
     print("  CURRICULUM AUTOMATION  v2  (FIXED)")
     print("=" * 62)
 
-    first_time = not os.path.exists(CHROME_PROFILE_PATH)
-
-    if first_time:
-        print()
-        print("⚠️  FIRST-TIME SETUP — Chrome will open login pages automatically.")
-        print(f"   New profile: {CHROME_PROFILE_PATH}")
-        print()
-
     input("  → Press Enter to launch Chrome... ")
 
     results = []
@@ -1095,34 +1090,6 @@ async def main():
             context = browser.contexts[0]
         else:
             context = await browser.new_context()
-
-        if first_time:
-            # Open both login pages now so the user sees exactly what to log into.
-            # Playwright is already connected — we control the tabs directly.
-            print()
-            print("  Opening ChatGPT and Google Sheets login pages...")
-            page_gpt = await context.new_page()
-            await page_gpt.goto("https://chatgpt.com", wait_until="domcontentloaded")
-            await asyncio.sleep(1)
-
-            page_sheet = await context.new_page()
-            await page_sheet.goto(SHEET_URL, wait_until="domcontentloaded")
-            await asyncio.sleep(1)
-
-            print()
-            print("=" * 62)
-            print("  Two tabs are now open in Chrome:")
-            print("    Tab 1 — ChatGPT  (log in with your account)")
-            print("    Tab 2 — Google Sheet  (log in / allow access)")
-            print()
-            print("  Once you are fully logged into BOTH, come back here.")
-            print("=" * 62)
-            input("  → Press Enter when both logins are complete... ")
-            print()
-
-            # Close the login tabs — the script opens fresh ones as needed
-            await page_gpt.close()
-            await page_sheet.close()
 
         page = await context.new_page()
 
