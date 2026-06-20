@@ -31,15 +31,15 @@ from playwright.async_api import async_playwright
 # CONFIGURATION — Edit before running
 # =============================================================================
 
-SHEET_URL = "https://docs.google.com/spreadsheets/d/1yjsoZW89luAozHd43CwU7_Uhr6dKIcJSofwfaYx7DKM/edit?gid=0#gid=0"
+SHEET_URL = "https://docs.google.com/spreadsheets/d/18w9QnS6U-7scYa4RwYWpFBgr9PXh0_V8mL-XGezsZkU/edit?gid=0#gid=0"
 
 PLAN_PROJECT_URL = (
-    # "https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/project"
-    "https://chatgpt.com/g/g-p-6a35212b0f888191ac467cce1d44a860/project"
+    "https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/project"
+    # "https://chatgpt.com/g/g-p-6a35212b0f888191ac467cce1d44a860/project"
 )
 QA_PROJECT_URL = (
-    # "https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/project"
-    "https://chatgpt.com/g/g-p-6a3521435c74819184a0fdd3ee12a134/project"
+    "https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/project"
+    # "https://chatgpt.com/g/g-p-6a3521435c74819184a0fdd3ee12a134/project"
 )
 
 # A dedicated folder for the script's Chrome profile.
