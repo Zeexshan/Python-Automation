@@ -458,16 +458,24 @@ async def open_new_chat(page, project_url):
 
 
 def extract_score(text):
-    """Parse QA score from response. Returns int or None."""
+    """
+    Parse QA score from response. Returns int or None.
+
+    Uses the LAST match rather than the first — re-QA responses often quote
+    the old score early in the text (e.g. 'Previous score: 34/100') before
+    stating the updated score at the end ('Updated score: 100/100').
+    Taking the last match reliably returns the final/updated score.
+    """
     patterns = [
         r"(?:final\s+)?(?:total\s+)?(?:overall\s+)?score[:\s]+(\d{1,3})\s*/\s*100",
         r"(\d{1,3})\s*/\s*100",
         r"(?:score|total)[:\s]+(\d{1,3})\b",
     ]
     for pat in patterns:
-        m = re.search(pat, text.lower())
-        if m:
-            v = int(m.group(1))
+        matches = re.findall(pat, text.lower())
+        if matches:
+            # Take the last match — it's the updated/final score in re-QA replies
+            v = int(matches[-1])
             if 0 <= v <= 100:
                 return v
     return None
