@@ -792,7 +792,7 @@ async def create_curriculum_tab(page):
 
     # Add header row: Short Course Name | Chapter | Lesson | Concepts to be Covered
     await navigate_to_cell(page, "A1")
-    header_tsv = "Short Course Name\tChapter\tLesson\tConcepts to be Covered"
+    header_tsv = "Short Course Name\tChapter\tLesson\tConcepts to be Covered\tLinks"
     pyperclip.copy(header_tsv)
     await page.keyboard.press("Control+v")
     await asyncio.sleep(1.5)
@@ -834,11 +834,12 @@ async def _read_curriculum_row_count(page) -> int:
     return max(0, len(lines) - 1)   # subtract 1 for the header row
 
 
-async def append_rows_to_curriculum_tab(page, rows):
+async def append_rows_to_curriculum_tab(page, rows, plan_url="", qa_url=""):
     """
     Paste new curriculum rows at the bottom of the Curriculum tab.
     Creates the tab (with headers) automatically if it does not exist.
     Rows format: [skill_name, chapter, lesson, concepts]
+    A 5th "Links" column is appended to every row using plan_url + qa_url.
 
     Uses a module-level counter (_curriculum_next_row) to track the exact
     target row so we never rely on Ctrl+End (which overshoots on empty sheets).
@@ -863,10 +864,16 @@ async def append_rows_to_curriculum_tab(page, rows):
         # existing=22 → rows 1-23 used → next row is 24
         _curriculum_next_row = existing + 2
 
+    # Build links value — same format as Tracker column D
+    links_value = f"1. {plan_url}\n2. {qa_url}" if plan_url or qa_url else ""
+
     # Navigate directly to the known next empty row and paste the TSV block.
     await navigate_to_cell(page, f"A{_curriculum_next_row}")
 
-    tsv = "\n".join("\t".join(str(c) for c in row) for row in rows)
+    tsv = "\n".join(
+        "\t".join(str(c) for c in row) + "\t" + links_value
+        for row in rows
+    )
     pyperclip.copy(tsv)
     await page.keyboard.press("Control+v")
     await asyncio.sleep(2)
@@ -999,7 +1006,7 @@ async def process_skill(page, row_number, skill_name, idx, total):
 
         await page.goto(SHEET_URL, wait_until="domcontentloaded")
         await focus_sheet(page)
-        await append_rows_to_curriculum_tab(page, rows)
+        await append_rows_to_curriculum_tab(page, rows, plan_url=plan_url, qa_url=qa_url)
         status = "Completed"
         result_label = f"✅ Passed ({score}/100, {len(rows)} rows written)"
     else:
