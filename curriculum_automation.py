@@ -708,21 +708,40 @@ async def save_sheet(page):
     await asyncio.sleep(1)
 
 
-async def click_sheet_tab(page, tab_name):
-    """Click a sheet tab by name."""
-    # FIX 7: Use role-based tab detection with text fallback
-    tab = page.get_by_role("tab", name=tab_name)
-    if await tab.count() > 0:
-        await tab.click()
-        await asyncio.sleep(1.5)
-        return True
+async def click_sheet_tab(page, tab_name, retries=6, retry_delay=3):
+    """
+    Click a sheet tab by name, retrying if the page is still loading.
 
-    # Fallback: find by text in the bottom tab bar
-    tab2 = page.locator(f"text='{tab_name}'").last
-    if await tab2.count() > 0:
-        await tab2.click()
-        await asyncio.sleep(1.5)
-        return True
+    WHY retries: after page.goto(SHEET_URL) with domcontentloaded the tab bar
+    is present in the DOM but Google Sheets may still be initialising — the
+    tab is found but covered by a loading overlay.  A plain .click() then
+    hangs for the full 30-second Playwright default before raising.  We use a
+    short per-attempt timeout (5s) and retry up to `retries` times instead,
+    which means we wait at most 30s total but recover much faster when Sheets
+    is simply slow rather than truly broken.
+    """
+    selectors = [
+        # Role-based (most reliable when Sheets is fully loaded)
+        lambda: page.get_by_role("tab", name=tab_name),
+        # Text fallback (catches older Sheets UI variants)
+        lambda: page.locator(f"text='{tab_name}'").last,
+        # aria-label fallback
+        lambda: page.locator(f"[aria-label='{tab_name}']").last,
+    ]
+
+    for attempt in range(retries):
+        for make_loc in selectors:
+            loc = make_loc()
+            try:
+                if await loc.count() > 0:
+                    await loc.click(timeout=5000)
+                    await asyncio.sleep(1.5)
+                    return True
+            except Exception:
+                pass   # not yet clickable — try next selector / next retry
+
+        if attempt < retries - 1:
+            await asyncio.sleep(retry_delay)
 
     return False
 

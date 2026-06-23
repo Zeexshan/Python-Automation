@@ -1,0 +1,169 @@
+
+C:\Users\acer\Downloads\Python-Automation-main\Python-Automation-main\attached_assets>python curriculum_automation_fixed.py
+==============================================================
+  CURRICULUM AUTOMATION  v2  (FIXED)
+==============================================================
+  → Press Enter to launch Chrome... \
+  Killing any existing Chrome processes...
+  taskkill stdout: SUCCESS: The process "chrome.exe" with PID 10512 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 19160 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 12704 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 348 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 2884 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 19512 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 22484 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 27008 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 20940 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 25428 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 15996 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 27724 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 16596 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 30504 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 26748 has been terminated.
+  taskkill stderr: 
+  Waiting 4s for Chrome processes to fully terminate...
+  Using Chrome: C:\Program Files\Google\Chrome\Application\chrome.exe
+  Launch args: C:\Program Files\Google\Chrome\Application\chrome.exe --remote-debugging-port=9222 --remote-allow-origins=* --user-data-dir=C:\Users\acer\AppData\Local\Google\ChromeDebugSession --profile-directory=Default --no-first-run --no-default-browser-check --start-maximized
+  Chrome launched (pid 27000) on port 9222.
+  Waiting for Chrome debug port to open (up to 45s)...
+  ✅ Debug port 9222 open after 1s.
+
+  Chrome is open.
+  Complete any verification steps in Chrome (OTP, 'verify it's you', etc.)
+  Once Chrome looks normal and you're ready to go:
+
+  🍳  Should we start cooking? Press Enter to begin...
+
+Connecting Playwright to Chrome...
+Reading skills from Google Sheet...
+Found 75 skills to process:
+  1. WordPress for Website Development
+  2. Shopify for E-Commerce Development
+  3. Framer for Landing Page Development
+  4. Webflow for No-Code Website Development
+  5. Contentful for Headless CMS
+  6. Sanity for Content Platforms
+  7. Storybook for Design Systems
+  8. React Native for Mobile Application Development
+  9. PostgreSQL for Production Databases
+  10. MongoDB for NoSQL Applications
+  11. Redis for Application Caching
+  12. RabbitMQ for Messaging Systems
+  13. Elasticsearch for Search Applications
+  14. Kong Gateway for API Management
+  15. Supabase for Backend Development
+  16. MinIO for Object Storage
+  17. Apache Cassandra for Distributed Databases
+  18. Neo4j for Graph Databases
+  19. WebSockets for Real-Time Applications
+  20. WebRTC for Real-Time Communication
+  21. NATS for Event-Driven Systems
+  22. Docker for Containerized Applications
+  23. Kubernetes for Container Orchestration
+  24. Terraform for Infrastructure as Code
+  25. GitHub Actions for CI/CD Pipelines
+  26. ArgoCD for GitOps Deployments
+  27. Helm for Kubernetes Package Management
+  28. Grafana for Monitoring Dashboards
+  29. Prometheus for Metrics Collection
+  30. Datadog for Observability
+  31. OpenTelemetry for Distributed Tracing
+  32. Sentry for Error Monitoring
+  33. Vault for Secrets Management
+  34. Istio for Service Mesh
+  35. NGINX for Reverse Proxy & Load Balancing
+  36. Loki for Log Aggregation
+  37. Jaeger for Distributed Tracing
+  38. AWS for Cloud Infrastructure
+  39. Microsoft Azure for Cloud Solutions
+  40. Google Cloud for Cloud Applications
+  41. AWS EC2 for Compute Services
+  42. AWS Lambda for Serverless Applications
+  43. Amazon EKS for Managed Kubernetes
+  44. Google GKE for Managed Kubernetes
+  45. Azure Functions for Serverless Computing
+  46. Amazon S3 for Cloud Storage
+  47. Amazon RDS for Managed Databases
+  48. Amazon DynamoDB for Serverless Databases
+  49. Amazon SQS for Messaging Services
+  50. Amazon SNS for Event Notifications
+  51. AWS IAM for Identity & Access Management
+  52. AWS VPC for Cloud Networking
+  53. Amazon CloudWatch for Monitoring
+  54. Cloudflare for CDN & Edge Services
+  55. Fastly for Edge Computing
+  56. Akamai for Global Content Delivery
+  57. Pulumi for Cloud Infrastructure Automation
+  58. Hugging Face for Open-Source AI
+  59. PyTorch for Deep Learning
+  60. TensorFlow for Machine Learning
+  61. MLflow for MLOps
+  62. Weights & Biases for Experiment Tracking
+  63. Ollama for Local LLM Deployment
+  64. vLLM for High-Performance Inference
+  65. LlamaIndex for RAG Applications
+  66. LangSmith for AI Evaluation & Observability
+  67. Qdrant for Vector Search
+  68. Pinecone for Vector Databases
+  69. YOLO for Computer Vision
+  70. ElevenLabs for Voice AI
+  71. ComfyUI for AI Image Generation
+  72. Runway for AI Video Generation
+  73. Blockchain
+  74. Solidity
+  75. Hyperledger
+
+
+==============================================================
+  [1/75] WordPress for Website Development  (sheet row 54)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/c/6a3a7549-8214-83ee-8a87-4625b4d799dd
+          Curriculum length: 7654 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a3a7573-8264-83ee-a170-161abdfb0d66
+          QA Score: 99/100
+  ❌ Unexpected error: Locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiti
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [2/75] Shopify for E-Commerce Development  (sheet row 55)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+Traceback (most recent call last):
+  File "C:\Users\acer\AppData\Local\Programs\Python\Python314\Lib\asyncio\runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\acer\AppData\Local\Programs\Python\Python314\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\acer\Downloads\Python-Automation-main\Python-Automation-main\attached_assets\curriculum_automation_fixed.py", line 1262, in main
+    result = await process_skill(page, row_number, skill_name, i, len(skills))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\acer\Downloads\Python-Automation-main\Python-Automation-main\attached_assets\curriculum_automation_fixed.py", line 923, in process_skill
+    await wait_for_response(page)
+  File "C:\Users\acer\Downloads\Python-Automation-main\Python-Automation-main\attached_assets\curriculum_automation_fixed.py", line 260, in wait_for_response
+    await asyncio.sleep(1.5)
+  File "C:\Users\acer\AppData\Local\Programs\Python\Python314\Lib\asyncio\tasks.py", line 702, in sleep
+    return await future
+           ^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\acer\Downloads\Python-Automation-main\Python-Automation-main\attached_assets\curriculum_automation_fixed.py", line 1297, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\acer\AppData\Local\Programs\Python\Python314\Lib\asyncio\runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\acer\AppData\Local\Programs\Python\Python314\Lib\asyncio\runners.py", line 132, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+^C
+C:\Users\acer\Downloads\Python-Automation-main\Python-Automation-main\attached_assets>  
