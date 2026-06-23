@@ -1,0 +1,331 @@
+
+C:\Users\acer\Downloads\Python-Automation-main\Python-Automation-main\attached_assets>cls
+ *  History restored 
+
+Microsoft Windows [Version 10.0.26200.8655]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\acer\Downloads\Python-Automation-main\Python-Automation-main\attached_assets>python curriculum_automation_fixed.py
+==============================================================
+  CURRICULUM AUTOMATION  v2  (FIXED)
+==============================================================
+  → Press Enter to launch Chrome... 
+  Killing any existing Chrome processes...
+  taskkill stdout: SUCCESS: The process "chrome.exe" with PID 24384 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 8328 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 16308 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 17760 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 27764 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 3988 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 22788 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 5320 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 6396 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 23456 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 24200 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 22584 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 22980 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 21828 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 3540 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 23024 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 13716 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 11324 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 1448 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 23908 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 20648 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 29636 has been terminated.
+SUCCESS: The process "chrome.exe" with PID 27700 has been terminated.
+  taskkill stderr:
+  Waiting 4s for Chrome processes to fully terminate...
+  Using Chrome: C:\Program Files\Google\Chrome\Application\chrome.exe
+  Launch args: C:\Program Files\Google\Chrome\Application\chrome.exe --remote-debugging-port=9222 --remote-allow-origins=* --user-data-dir=C:\Users\acer\AppData\Local\Google\ChromeDebugSession --profile-directory=Default --no-first-run --no-default-browser-check --start-maximized
+  Chrome launched (pid 10512) on port 9222.
+  Waiting for Chrome debug port to open (up to 45s)...
+  ✅ Debug port 9222 open after 1s.
+
+  Chrome is open.
+  Complete any verification steps in Chrome (OTP, 'verify it's you', etc.)
+  Once Chrome looks normal and you're ready to go:
+
+  🍳  Should we start cooking? Press Enter to begin...
+
+Connecting Playwright to Chrome...
+Reading skills from Google Sheet...
+Found 83 skills to process:
+  1. Trino for Distributed Query Processing
+  2. DuckDB for Embedded Analytics
+  3. Feast for Machine Learning Feature Stores
+  4. Apache Spark for Distributed Data Processing
+  5. Apache Flink for Stream Processing
+  6. ClickHouse for Real-Time Analytics
+  7. Figma for Product Design
+  8. WordPress for Website Development
+  9. Shopify for E-Commerce Development
+  10. Vercel for Frontend Deployment
+  11. Framer for Landing Page Development
+  12. Webflow for No-Code Website Development
+  13. Contentful for Headless CMS
+  14. Sanity for Content Platforms
+  15. Storybook for Design Systems
+  16. React Native for Mobile Application Development
+  17. PostgreSQL for Production Databases
+  18. MongoDB for NoSQL Applications
+  19. Redis for Application Caching
+  20. RabbitMQ for Messaging Systems
+  21. Elasticsearch for Search Applications
+  22. Kong Gateway for API Management
+  23. Supabase for Backend Development
+  24. MinIO for Object Storage
+  25. Apache Cassandra for Distributed Databases
+  26. Neo4j for Graph Databases
+  27. WebSockets for Real-Time Applications
+  28. WebRTC for Real-Time Communication
+  29. NATS for Event-Driven Systems
+  30. Docker for Containerized Applications
+  31. Kubernetes for Container Orchestration
+  32. Terraform for Infrastructure as Code
+  33. GitHub Actions for CI/CD Pipelines
+  34. ArgoCD for GitOps Deployments
+  35. Helm for Kubernetes Package Management
+  36. Grafana for Monitoring Dashboards
+  37. Prometheus for Metrics Collection
+  38. Datadog for Observability
+  39. OpenTelemetry for Distributed Tracing
+  40. Sentry for Error Monitoring
+  41. Vault for Secrets Management
+  42. Istio for Service Mesh
+  43. NGINX for Reverse Proxy & Load Balancing
+  44. Loki for Log Aggregation
+  45. Jaeger for Distributed Tracing
+  46. AWS for Cloud Infrastructure
+  47. Microsoft Azure for Cloud Solutions
+  48. Google Cloud for Cloud Applications
+  49. AWS EC2 for Compute Services
+  50. AWS Lambda for Serverless Applications
+  51. Amazon EKS for Managed Kubernetes
+  52. Google GKE for Managed Kubernetes
+  53. Azure Functions for Serverless Computing
+  54. Amazon S3 for Cloud Storage
+  55. Amazon RDS for Managed Databases
+  56. Amazon DynamoDB for Serverless Databases
+  57. Amazon SQS for Messaging Services
+  58. Amazon SNS for Event Notifications
+  59. AWS IAM for Identity & Access Management
+  60. AWS VPC for Cloud Networking
+  61. Amazon CloudWatch for Monitoring
+  62. Cloudflare for CDN & Edge Services
+  63. Fastly for Edge Computing
+  64. Akamai for Global Content Delivery
+  65. Pulumi for Cloud Infrastructure Automation
+  66. Hugging Face for Open-Source AI
+  67. PyTorch for Deep Learning
+  68. TensorFlow for Machine Learning
+  69. MLflow for MLOps
+  70. Weights & Biases for Experiment Tracking
+  71. Ollama for Local LLM Deployment
+  72. vLLM for High-Performance Inference
+  73. LlamaIndex for RAG Applications
+  74. LangSmith for AI Evaluation & Observability
+  75. Qdrant for Vector Search
+  76. Pinecone for Vector Databases
+  77. YOLO for Computer Vision
+  78. ElevenLabs for Voice AI
+  79. ComfyUI for AI Image Generation
+  80. Runway for AI Video Generation
+  81. Blockchain
+  82. Solidity
+  83. Hyperledger
+
+
+==============================================================
+  [1/83] Trino for Distributed Query Processing  (sheet row 47)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/c/6a3a4b67-1b60-83e8-8122-6b23e926592f
+          Curriculum length: 8854 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a3a4b88-ae8c-83ee-a905-20393c0a5713
+          QA Score: 99/100
+    ✅ Wrote 22 rows to 'Curriculum' tab.
+  Result │ ✅ Passed (99/100, 22 rows written)
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [2/83] DuckDB for Embedded Analytics  (sheet row 48)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/c/6a3a4c46-2e90-83e8-aa2c-c4a8790fef65
+          Curriculum length: 9572 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a3a4c6d-64b0-83e8-8d25-3a1dbb1a7b69
+          QA Score: 100/100
+    ✅ Wrote 22 rows to 'Curriculum' tab.
+  Result │ ✅ Passed (100/100, 22 rows written)
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [3/83] Feast for Machine Learning Feature Stores  (sheet row 49)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/c/6a3a4d28-031c-83ee-b330-db6ddcaf883c
+          Curriculum length: 10198 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a3a4d4c-047c-83e8-93f3-82e4929fb1f0
+          QA Score: 99/100
+    ✅ Wrote 23 rows to 'Curriculum' tab.
+  Result │ ✅ Passed (99/100, 23 rows written)
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [4/83] Apache Spark for Distributed Data Processing  (sheet row 50)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/c/6a3a4e08-1580-83e8-ac73-dec2a20515c7
+          Curriculum length: 8902 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a3a4e2a-9ea0-83e8-91a8-66041af41ad6
+          QA Score: 99/100
+    ✅ Wrote 22 rows to 'Curriculum' tab.
+  Result │ ✅ Passed (99/100, 22 rows written)
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [5/83] Apache Flink for Stream Processing  (sheet row 51)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/c/6a3a4ee9-6850-83e8-9fc4-a31400fe1fd8
+          Curriculum length: 8498 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a3a4f0d-3508-83ee-94a1-37a3d180bd5e
+          QA Score: 100/100
+    ✅ Wrote 23 rows to 'Curriculum' tab.
+  Result │ ✅ Passed (100/100, 23 rows written)
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [6/83] ClickHouse for Real-Time Analytics  (sheet row 52)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/c/6a3a4fc0-b5c0-83ee-8776-3f9cd4825315
+          Curriculum length: 9430 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a3a4fe1-c120-83e8-ba7d-8ae4d058f9a4
+          QA Score: 98/100
+    ✅ Wrote 22 rows to 'Curriculum' tab.
+  Result │ ✅ Passed (98/100, 22 rows written)
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [7/83] Figma for Product Design  (sheet row 53)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/c/6a3a5091-7868-83ee-b150-b4f7833f1691
+          Curriculum length: 9670 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a3a50b2-aa38-83ee-8ed5-db55c48766bd
+          QA Score: 100/100
+    ✅ Wrote 22 rows to 'Curriculum' tab.
+  Result │ ✅ Passed (100/100, 22 rows written)
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [8/83] WordPress for Website Development  (sheet row 54)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/c/6a3a516d-806c-83ee-8e8d-da85c53a5176
+          Curriculum length: 7318 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a3a518b-7b90-83ee-a6d0-8fd1eff230ed
+          QA Score: 96/100
+  Step 3 │ Re-QA attempt 1/2...
+          Fixed curriculum: 4569 chars
+  ❌ Unexpected error: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigatin
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [9/83] Shopify for E-Commerce Development  (sheet row 55)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+  ❌ Unexpected error: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigatin
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [10/83] Vercel for Frontend Deployment  (sheet row 56)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+          Plan URL: https://chatgpt.com/g/g-p-6a33ebfaaab881919d7c821a7091f00e-structure-plan-tanveer/c/6a3a52d9-2fb8-83e8-9f16-4ba960fee7c2
+          Curriculum length: 10149 chars
+  Step 2 │ Running QA (QA project)...
+          QA analyzer acknowledged.
+          QA URL: https://chatgpt.com/g/g-p-6a33ebd7254881918d82fcaf9208e631-structure-qa-tanveer/c/6a3a5306-9108-83e8-ba9d-adf75ec0c6ab
+          QA Score: 96/100
+  Step 3 │ Re-QA attempt 1/2...
+          Fixed curriculum: 11278 chars
+          Re-QA Score: 100/100
+          Fetching final curriculum from Plan project...
+          Final curriculum: 4701 chars
+  ⚠️  parse_table returned 0 rows — first 300 chars received:
+      'Chapter\tLesson\tConcepts to be Covered\nFoundations\tVercel Platform\tVercel project model, frontend hosting lifecycle, dashboard structure, supported frontend frameworks, framework auto-detection, build output handling, preview deployment model, production deployment model.\nFoundations\tProject Setup\tAc'
+    ✅ Wrote 0 rows to 'Curriculum' tab.
+  Result │ ✅ Passed (100/100, 0 rows written)
+
+  Waiting 5s before next skill...
+
+==============================================================
+  [11/83] Framer for Landing Page Development  (sheet row 57)
+==============================================================
+  Step 1 │ Generating curriculum (Plan project)...
+Traceback (most recent call last):
+  File "C:\Users\acer\AppData\Local\Programs\Python\Python314\Lib\asyncio\runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\acer\AppData\Local\Programs\Python\Python314\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\acer\Downloads\Python-Automation-main\Python-Automation-main\attached_assets\curriculum_automation_fixed.py", line 1220, in main
+    result = await process_skill(page, row_number, skill_name, i, len(skills))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\acer\Downloads\Python-Automation-main\Python-Automation-main\attached_assets\curriculum_automation_fixed.py", line 879, in process_skill
+    plan_url = await open_new_chat(page, PLAN_PROJECT_URL)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\acer\Downloads\Python-Automation-main\Python-Automation-main\attached_assets\curriculum_automation_fixed.py", line 435, in open_new_chat
+    await asyncio.sleep(3)
+  File "C:\Users\acer\AppData\Local\Programs\Python\Python314\Lib\asyncio\tasks.py", line 702, in sleep
+    return await future
+           ^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\acer\Downloads\Python-Automation-main\Python-Automation-main\attached_assets\curriculum_automation_fixed.py", line 1255, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\acer\AppData\Local\Programs\Python\Python314\Lib\asyncio\runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\acer\AppData\Local\Programs\Python\Python314\Lib\asyncio\runners.py", line 132, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+^C
+C:\Users\acer\Downloads\Python-Automation-main\Python-Automation-main\attached_assets>

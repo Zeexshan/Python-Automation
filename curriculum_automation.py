@@ -482,8 +482,41 @@ def extract_score(text):
 
 
 def parse_table(text, skill_name):
-    """Extract rows from markdown table → [[skill, chapter, lesson, concepts], ...]"""
+    """
+    Extract rows from markdown table OR TSV → [[skill, chapter, lesson, concepts], ...]
+
+    ChatGPT's copy button sometimes returns the table as tab-separated text
+    (TSV) rather than raw markdown — especially when the response is fetched
+    after navigating back to plan_url.  We detect which format was received
+    and parse accordingly.
+    """
     rows = []
+
+    # ── Detect format ─────────────────────────────────────────────────────────
+    sample_lines = [l for l in text.strip().split("\n") if l.strip()][:10]
+    has_pipes = any("|" in ln for ln in sample_lines)
+    has_tabs  = any("\t" in ln for ln in sample_lines)
+
+    # ── TSV path ──────────────────────────────────────────────────────────────
+    if has_tabs and not has_pipes:
+        for line in text.split("\n"):
+            line = line.strip()
+            if not line:
+                continue
+            parts = line.split("\t")
+            if len(parts) < 3:
+                continue
+            chapter  = parts[0].strip()
+            lesson   = parts[1].strip()
+            concepts = parts[2].strip() if len(parts) > 2 else ""
+            # Skip header row
+            if chapter.lower() in ("chapter", "") and lesson.lower() in ("lesson", ""):
+                continue
+            if chapter or lesson:
+                rows.append([skill_name, chapter, lesson, concepts])
+        return rows
+
+    # ── Markdown pipe table path ───────────────────────────────────────────────
     for line in text.split("\n"):
         line = line.strip()
         if not line.startswith("|"):
@@ -493,7 +526,9 @@ def parse_table(text, skill_name):
         parts = [p.strip() for p in line.strip("|").split("|")]
         if len(parts) < 3:
             continue
-        chapter, lesson, concepts = parts[0], parts[1], parts[2] if len(parts) > 2 else ""
+        chapter  = parts[0]
+        lesson   = parts[1]
+        concepts = parts[2] if len(parts) > 2 else ""
         if chapter.lower() in ("chapter", "") and lesson.lower() in ("lesson", ""):
             continue
         if chapter or lesson:
@@ -912,7 +947,7 @@ async def process_skill(page, row_number, skill_name, idx, total):
         print(f"  Step 3 │ Re-QA attempt {retry}/{MAX_REQA_RETRIES}...")
 
         # Ask Plan project (same conversation) to fix curriculum
-        await page.goto(plan_url, wait_until="domcontentloaded")
+        await page.goto(plan_url, wait_until="domcontentloaded", timeout=60000)
         await asyncio.sleep(2)
         fix_prompt = PLAN_FIX_PROMPT.format(
             skill_name=skill_name,
@@ -925,7 +960,7 @@ async def process_skill(page, row_number, skill_name, idx, total):
         print(f"          Fixed curriculum: {len(curriculum)} chars")
 
         # Ask QA project (same conversation) to re-QA
-        await page.goto(qa_url, wait_until="domcontentloaded")
+        await page.goto(qa_url, wait_until="domcontentloaded", timeout=60000)
         await asyncio.sleep(2)
         await send_message_in_parts(
             page,
@@ -951,7 +986,7 @@ async def process_skill(page, row_number, skill_name, idx, total):
         # attempt at the raw markdown.
         if retry > 0:
             print("          Fetching final curriculum from Plan project...")
-            await page.goto(plan_url, wait_until="domcontentloaded")
+            await page.goto(plan_url, wait_until="domcontentloaded", timeout=60000)
             await asyncio.sleep(2)
             curriculum = await get_last_response(page)
             print(f"          Final curriculum: {len(curriculum)} chars")
